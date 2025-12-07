@@ -67,14 +67,14 @@ class NaiveBayes:
         plt.tight_layout()
         plt.show()
 
-    def _predict(self, x: pd.DataFrame, y_true: pd.DataFrame):
+    def _predict(self, x: pd.DataFrame, y_true: pd.DataFrame, alpha: float):
         posteriors = self._calculate_posterior(x)
         y_pred = np.argmax(posteriors, axis = 1)
-        return evaluate(y_true, y_pred)
+        return evaluate(y_true, y_pred, alpha)
 
     def fit_and_predict(self, x: pd.DataFrame, y_true: pd.DataFrame, alpha:float):
         self._fit(alpha)
-        return self._predict(x, y_true)
+        return self._predict(x, y_true, alpha)
 
 
     def _plot_likelihoods(self, label_mapping: dict):

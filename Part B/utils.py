@@ -88,7 +88,7 @@ def split_data(x: pd.DataFrame, y: pd.DataFrame, train_size: float, val_size: fl
                                                       stratify=y_train_val)
     return x_train, x_val, x_test, y_train, y_val, y_test
 
-def evaluate(y_true: np.array, y_pred: np.array):
+def evaluate(y_true: np.array, y_pred: np.array, alpha: float):
     acc = accuracy_score(y_true, y_pred)
     precision = precision_score(y_true, y_pred)
     recall = recall_score(y_true, y_pred)
@@ -97,7 +97,7 @@ def evaluate(y_true: np.array, y_pred: np.array):
     conf_matrix = confusion_matrix(y_true, y_pred)
     disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix, display_labels=["<=50K", ">50K"])
     disp.plot(cmap=plt.cm.Blues)
-    plt.title("Confusion Matrix")
+    plt.title(f"Confusion Matrix at alpha = {alpha}")
     plt.show()
     return acc, precision, recall, f1
 
