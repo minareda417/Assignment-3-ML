@@ -20,9 +20,10 @@ class Node:
 
 
 class DecisionTree:
-    def __init__(self, min_samples_split=2, max_depth=10):
+    def __init__(self, min_samples_split=2, max_depth=10, max_features: int = None):
         self.min_samples_split = min_samples_split
         self.max_depth = max_depth
+        self.max_features = max_features
         self.root = None
 
     def __calc_entropy(self, y:np.ndarray):
@@ -66,11 +67,18 @@ class DecisionTree:
     def __find_best_split(self, X:np.ndarray, y:np.ndarray):
         max_ig = -1
         max_ig_feature, max_ig_threshold = None, None
-        for feature_idx in range(X.shape[1]):
+        n_features = X.shape[1]
+        if self.max_features is not None:
+            feature_indices = np.random.choice(n_features,
+                                               size=min(self.max_features, n_features),
+                                               replace=False)
+        else:
+            feature_indices = range(n_features)
+        for feature_idx in feature_indices:
             ts = self.__get_possible_thresholds(X, feature_idx)
             for t in ts:
                 ig = self.__calc_information_gain(X, y, feature_idx, t)
-                if(ig > max_ig):
+                if ig > max_ig:
                     max_ig = ig
                     max_ig_feature = feature_idx
                     max_ig_threshold = t
@@ -114,14 +122,14 @@ class DecisionTree:
        return np.array([self.__traverse_tree(x) for x in X])
 
     def __traverse_tree(self, x):
-        if(self.root is None):
+        if self.root is None:
             raise Exception("The model is not trained")
         curr: Node = self.root
-        while(not curr.is_leaf()):
+        while not curr.is_leaf():
             feat_idx = curr.feature_idx
             threshold = curr.threshold
 
-            if(x[feat_idx] <= threshold):
+            if x[feat_idx] <= threshold:
                 curr = curr.left
             else:
                 curr = curr.right
