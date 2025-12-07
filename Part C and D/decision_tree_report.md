@@ -173,3 +173,21 @@ This implementation demonstrates:
 
 The decision tree successfully classifies breast cancer tumors with high accuracy, making it a viable baseline model for medical diagnosis tasks.
 ---
+
+## Random Forest
+
+### Random Forest vs Decision Tree
+
+| Metric           | Decision tree | Random forest |
+|------------------|---------------|---------------|
+| **Accuracy**     | 0.8837        | 0.9070        |
+| **Precision(0)** | 0.8667        | 0.9286        |
+| **Precision(1)** | 0.8929        | 0.8966        |
+| **Recall(0)**    | 0.8125        | 0.8125        |
+| **Recall(1)**    | 0.9259        | 0.9630        |
+| **F1-score(0)**  | 0.8387        | 0.8667        |
+| **F1-score(1)**  | 0.9091        | 0.9286        |
+
+### Effect on bias and variance
+- **Bias**: Random forests reduce bias by averaging multiple trees, leading to better generalization.
+- **Variance**: Random forests significantly reduce variance by aggregating predictions from multiple trees, making the model more robust to noise in the training data.
